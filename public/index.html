@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+    <title>QR Studio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styling.css">
+</head>
+    <!--
+    ---------------------( QR Studio - Absensi Sekolah dengan Sistem QR )---------------------
+        Developed by  : M. Syalman Al Farizi (Neverlabs)
+        GitHub        : https://github.com/neveerlabs or https://github.com/nflora-ux
+        Contact       : userlinuxorg@gmail.com
+        School        : SMK Bumi Riyadhutholibin, Sukabumi, Jawa Barat
+        Portfolio     : https://neveerlabs.github.io/Portfolio
+        Version       : v1.0.4 (2026-06-15)
+        Description   : Aplikasi generate QR code, vault penyimpanan lokal, dan sistem absensi
+                        berbasis QR untuk sekolah. Mendukung dua role: user (QR generator & vault)
+                        dan admin (scan QR untuk absensi + manajemen data siswa/guru).
+        Dependencies  : html5-qrcode v2.3.8, qrcodejs v1.0.0, Font Awesome 6, Google Fonts Inter
+        License       : MIT
+        Source        : https://github.com/neveerlabs/QR-Studio
+
+        Copyright (c) 2026 Neverlabs. All rights reserved.
+    -->
+<body>
+<div class="container">
+    <div class="glass-card">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <h1><i class="fas fa-qrcode"></i> QR Studio</h1>
+                <button id="profileBtn" class="icon-btn">
+                    <i class="fas fa-user-circle"></i>
+                </button>
+            </div>
+            <p>Buat, simpan, kelola QR & absensi sekolah</p>
+        </div>
+        <div class="tabs" id="tabsContainer">
+            <button class="tab-btn active" data-tab="generate"><i class="fas fa-plus-circle"></i> Generate</button>
+            <button class="tab-btn" data-tab="vault"><i class="fas fa-database"></i> Vault</button>
+        </div>
+
+        <div id="generatePanel" class="panel active">
+            <div class="input-group">
+                <label><i class="fas fa-layer-group"></i> Tipe QR</label>
+                <select id="qrTypeSelect">
+                    <option value="catatan">Catatan</option>
+                    <option value="sekolah">Sekolah (Data Siswa/Guru)</option>
+                </select>
+            </div>
+            <div id="catatanFields">
+                <div class="input-group">
+                    <label><i class="fas fa-pencil-alt"></i> Teks / URL</label>
+                    <textarea id="qrTextInput" rows="3" placeholder="Masukkan teks, link, atau data apapun..."></textarea>
+                </div>
+            </div>
+            <div id="sekolahFields" style="display: none;"></div>
+            <div id="genPreview" class="qr-preview" style="display: none;">
+                <div id="qrPreviewImg"></div>
+            </div>
+            <button id="generateBtn" class="btn-primary"><i class="fas fa-sync-alt"></i> Generate QR</button>
+            <button id="saveGenBtn" class="btn-primary" style="margin-top: 10px; background: linear-gradient(100deg, #2d3748, #1e293b);"><i class="fas fa-save"></i> Simpan ke Vault</button>
+        </div>
+
+        <div id="vaultPanel" class="panel">
+            <div id="vaultList" class="qr-list">
+                <div class="empty-state"><i class="fas fa-archive"></i><br>Belum ada QR tersimpan</div>
+            </div>
+        </div>
+
+        <div id="adminPanel" class="panel" style="display: none;">
+            <div class="tabs-admin" style="display: flex; gap: 8px; margin-bottom: 1rem;">
+                <button id="scanTabBtn" class="tab-btn active" data-admin-tab="scan"><i class="fas fa-camera"></i> Scan</button>
+                <button id="absensiTabBtn" class="tab-btn" data-admin-tab="absensi"><i class="fas fa-calendar-check"></i> Absensi</button>
+            </div>
+            <div id="scanAdminPanel">
+                <div class="scanner-wrapper">
+                    <div id="qr-reader"></div>
+                    <canvas id="overlayCanvas" class="scan-overlay"></canvas>
+                    <div class="scan-line"></div>
+                </div>
+                <div id="scanResult" class="scan-result" style="display: none;">
+                    <div><i class="fas fa-check-circle" style="color: #10b981;"></i> Hasil Scan:</div>
+                    <div id="scannedText" style="font-weight: 500; margin-top: 6px;"></div>
+                </div>
+                <div class="file-upload-area" id="fileUploadArea">
+                    <i class="fas fa-upload"></i> <span id="uploadLabel">Pilih gambar dari storage</span>
+                    <input type="file" id="fileInput" accept="image/*" style="display: none;">
+                </div>
+                <div id="fileScanStatus" style="margin-top: 8px; text-align: center; font-size: 0.75rem; color: #9ca3af;"></div>
+                <button id="startScanBtn" class="btn-primary"><i class="fas fa-play"></i> Mulai Kamera</button>
+                <button id="stopScanBtn" class="btn-primary" style="background: #4b5563; margin-top: 8px;"><i class="fas fa-stop"></i> Hentikan Kamera</button>
+            </div>
+            <div id="absensiAdminPanel" style="display: none;">
+                <div class="filter-group">
+                    <input type="date" id="filterDate" class="filter-input">
+                    <button id="applyFilterBtn" class="btn-secondary"><i class="fas fa-filter"></i> Filter</button>
+                </div>
+                <div id="absensiTableContainer"></div>
+            </div>
+        </div>
+    </div>
+    <footer><i class="fas fa-shield-alt"></i> Powered By QR Studio</footer>
+</div>
+
+<div id="toast" class="toast"></div>
+<div id="modalLogin" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <h3><i class="fas fa-lock"></i> Login Admin</h3>
+        <input type="text" id="loginUsername" placeholder="Username" class="modal-input">
+        <input type="password" id="loginPassword" placeholder="Password" class="modal-input">
+        <div class="modal-buttons">
+            <button id="loginSubmit" class="btn-primary">Login</button>
+            <button id="loginClose" class="btn-secondary">Batal</button>
+        </div>
+    </div>
+</div>
+<div id="modalProfile" class="modal-overlay" style="display: none;">
+    <div class="modal-content">
+        <div id="profileInfo"></div>
+        <div class="modal-buttons">
+            <button id="logoutBtn" class="btn-danger">Log Out</button>
+            <button id="profileClose" class="btn-secondary">Tutup</button>
+        </div>
+    </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
