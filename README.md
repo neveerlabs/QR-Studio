@@ -37,8 +37,7 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 > *Gambar berikut adalah ilustrasi tampilan aplikasi.*
 
 ### Halaman utama (generate catatan)
-![Generate catatan](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(60).png
-)
+![Generate catatan](https://github.com/neveerlabs/QR-Studio/raw/a498a0e91dc439d5e831a097a8f245d0ee8bf1c5/Screenshots/Screenshot%20(66).png)
 *Masukkan teks di input, lalu klik `Generate QR` untuk generate, lalu klik `Simpan ke vault` untuk menyimpan dan unduh barcode.*
 
 ### Generate barcode sekolah (Siswa)
@@ -51,7 +50,7 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 *Masukkan seluruh input, klik `Generate QR` dan `Simpan ke vault`*
 
 ### Vault – Koleksi QR
-![Vault](https://via.placeholder.com/400x200?text=Screenshot+Vault)
+![Vault](https://github.com/neveerlabs/QR-Studio/raw/a498a0e91dc439d5e831a097a8f245d0ee8bf1c5/Screenshots/Screenshot%20(67).png)
 *Daftar QR yang pernah dibuat, dilengkapi tombol lihat, download, hapus.*
 
 ### Dashboard Admin – Scan Kamera
