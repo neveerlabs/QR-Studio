@@ -1,6 +1,6 @@
 # QR Studio – Sistem Absensi Berbasis QR Code
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://github.com/neveerlabs/QR-Studio/blob/b658f3fa3c5646f4a7b173a2a170bc329348f383/LICENSE)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D16-brightgreen)](https://nodejs.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0-blue)](https://mysql.com/)
 
