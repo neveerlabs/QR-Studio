@@ -39,23 +39,28 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 ### Halaman utama (generate catatan)
 ![Generate catatan](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(60).png
 )
-*Pengguna memilih tipe QR dan mengisi data. QR langsung muncul di preview.*
+*Masukkan teks di input, lalu klik `Generate QR` untuk generate, lalu klik `Simpan ke vault` untuk menyimpan dan unduh barcode.*
+
+### Generate barcode sekolah (Siswa)
+![QR Siswa](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(61).png
+)
+*Masukkan seluruh data input, lalu tekan tombol `Generate QR` untuk generate dan `Simpan ke vault`*
+
+### Generate barcode sekolah (Guru)
+![QR Guru](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(62).png)
+*Masukkan seluruh input, klik `Generate QR` dan `Simpan ke vault`*
 
 ### Vault – Koleksi QR
 ![Vault](https://via.placeholder.com/400x200?text=Screenshot+Vault)
 *Daftar QR yang pernah dibuat, dilengkapi tombol lihat, download, hapus.*
 
 ### Dashboard Admin – Scan Kamera
-![Scan Kamera](https://via.placeholder.com/400x200?text=Screenshot+Scan+Kamera)
+![Scan Kamera](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(63).png)
 *Scanner dengan overlay bounding box dan garis animasi. Hasil scan ditampilkan di bawah.*
 
 ### Halaman Absensi
-![Absensi](https://via.placeholder.com/400x200?text=Screenshot+Absensi)
+![Absensi](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(64).png)
 *Tabel kehadiran, filter tanggal, dan tombol backup data.*
-
-### Backup Data
-![Backup](https://via.placeholder.com/400x200?text=Screenshot+Backup)
-*Modal pilihan role backup dan periode bulan/tahun.*
 
 ---
 
