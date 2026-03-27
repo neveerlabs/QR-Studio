@@ -96,11 +96,25 @@ async function login(username, password) {
             showToast('Login berhasil', 'success');
             checkDevice();
             document.getElementById('modalLogin').style.display = 'none';
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) errorDiv.style.display = 'none';
         } else {
-            showToast('Username atau password salah', 'error');
+            const errorDiv = document.getElementById('loginError');
+            if (errorDiv) {
+                errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Username atau password salah';
+                errorDiv.style.display = 'block';
+            } else {
+                showToast('Username atau password salah', 'error');
+            }
         }
     } catch (err) {
-        showToast('Gagal login', 'error');
+        const errorDiv = document.getElementById('loginError');
+        if (errorDiv) {
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> Gagal terhubung ke server';
+            errorDiv.style.display = 'block';
+        } else {
+            showToast('Gagal login', 'error');
+        }
     }
 }
 
@@ -121,6 +135,8 @@ async function logout() {
 
 function showLoginModal() {
     document.getElementById('modalLogin').style.display = 'flex';
+    const errorDiv = document.getElementById('loginError');
+    if (errorDiv) errorDiv.style.display = 'none';
 }
 
 function showProfileModal() {
@@ -375,7 +391,7 @@ function updateRoleFields() {
             <div class="input-group"><label><i class="fas fa-school"></i> Status</label><select id="statusSiswa"><option value="SMP">SMP</option><option value="SMK">SMK</option></select></div>
             <div class="input-group"><label><i class="fas fa-id-card"></i> NIS (Opsional)</label><input type="text" id="nis"></div>
             <div class="input-group"><label><i class="fas fa-id-card"></i> NISN (Opsional)</label><input type="text" id="nisn"></div>
-            <div class="input-group"><label><i class="fas fa-chalkboard"></i> Kelas</label><input type="text" id="kelas" required></div>
+            <div class="input-group"><label><i class="fas fa-chalkboard"></i> Kelas</label><select id="kelas" required><option value="">Pilih Kelas</option><option value="Kelas 7">Kelas 7</option><option value="Kelas 8">Kelas 8</option><option value="Kelas 9">Kelas 9</option><option value="Kelas 10">Kelas 10</option><option value="Kelas 11">Kelas 11</option><option value="Kelas 12">Kelas 12</option></select></div>
         `;
     } else {
         container.innerHTML = `
@@ -708,7 +724,14 @@ async function loadAbsensiData() {
     container.innerHTML = `
         <table class="absensi-table">
             <thead>
-                <tr><th>Nama Panggilan</th><th>Role</th><th>Status</th><th>Kelas</th><th>Kehadiran</th><th>Aksi</th></tr>
+                <tr>
+                    <th>Nama Panggilan</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Kelas</th>
+                    <th>Kehadiran</th>
+                    <th>Aksi</th>
+                </tr>
             </thead>
             <tbody>
                 ${users.map(u => `
@@ -751,6 +774,90 @@ document.getElementById('absensiTabBtn')?.addEventListener('click', () => {
     loadAbsensiData();
 });
 document.getElementById('applyFilterBtn')?.addEventListener('click', loadAbsensiData);
+
+async function exportToExcel(data, filename) {
+    const ws = XLSX.utils.json_to_sheet(data);
+    const wb = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Absensi');
+    XLSX.writeFile(wb, filename);
+}
+
+async function backupData(role) {
+    let month = prompt('Masukkan bulan (1-12):', new Date().getMonth() + 1);
+    if (!month) return;
+    month = parseInt(month);
+    if (isNaN(month) || month < 1 || month > 12) {
+        showToast('Bulan tidak valid', 'error');
+        return;
+    }
+    let year = prompt('Masukkan tahun (YYYY):', new Date().getFullYear());
+    if (!year) return;
+    year = parseInt(year);
+    if (isNaN(year) || year < 2000 || year > 2100) {
+        showToast('Tahun tidak valid', 'error');
+        return;
+    }
+    try {
+        let url = `${API_BASE}/absen/month?month=${month}&year=${year}`;
+        if (role !== 'all') url += `&role=${role}`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data.length) {
+            showToast('Tidak ada data untuk periode ini', 'error');
+            return;
+        }
+        const months = ['Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni', 'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'];
+        const formatted = data.map(row => {
+            const dateObj = new Date(row.tanggal);
+            const formattedDate = `${dateObj.getDate()} ${months[dateObj.getMonth()]} ${dateObj.getFullYear()}`;
+            return {
+                'Nama Panggilan': row.nama_panggilan,
+                'Nama Lengkap': row.nama_lengkap,
+                'Role': row.role,
+                'Status': row.status,
+                'Kelas': row.kelas || '-',
+                'Waktu': formattedDate,
+                'Status Kehadiran': 'Hadir'
+            };
+        });
+        const filename = `absensi_${role}_${month}_${year}.xlsx`;
+        await exportToExcel(formatted, filename);
+        showToast(`Backup ${role} berhasil`, 'success');
+    } catch (err) {
+        console.error(err);
+        showToast('Gagal backup data', 'error');
+    }
+}
+
+document.getElementById('backupBtn')?.addEventListener('click', () => {
+    const options = ['Siswa', 'Guru', 'Semua'];
+    const optionButtons = options.map(opt => `
+        <button class="btn-secondary backup-option" data-role="${opt.toLowerCase()}">Backup ${opt}</button>
+    `).join('');
+    const modal = document.createElement('div');
+    modal.className = 'modal-overlay';
+    modal.style.display = 'flex';
+    modal.innerHTML = `
+        <div class="modal-content">
+            <h3><i class="fas fa-database"></i> Backup Data Absensi</h3>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 1rem;">
+                ${optionButtons}
+            </div>
+            <div class="modal-buttons">
+                <button id="closeBackupModal" class="btn-secondary">Batal</button>
+            </div>
+        </div>
+    `;
+    document.body.appendChild(modal);
+    document.querySelectorAll('.backup-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const role = btn.getAttribute('data-role');
+            modal.remove();
+            backupData(role);
+        });
+    });
+    document.getElementById('closeBackupModal').addEventListener('click', () => modal.remove());
+});
 
 window.addEventListener('load', async () => {
     await openDB();
