@@ -54,7 +54,7 @@
             <div id="catatanFields">
                 <div class="input-group">
                     <label><i class="fas fa-pencil-alt"></i> Teks / URL</label>
-                    <textarea id="qrTextInput" rows="3" placeholder="Masukkan teks, link, atau data apapun..."></textarea>
+                    <textarea id="qrTextInput" rows="3" placeholder="Masukkan teks..."></textarea>
                 </div>
             </div>
             <div id="sekolahFields" style="display: none;"></div>
@@ -98,6 +98,7 @@
                 <div class="filter-group">
                     <input type="date" id="filterDate" class="filter-input">
                     <button id="applyFilterBtn" class="btn-secondary"><i class="fas fa-filter"></i> Filter</button>
+                    <button id="backupBtn" class="btn-secondary"><i class="fas fa-database"></i> Backup</button>
                 </div>
                 <div id="absensiTableContainer"></div>
             </div>
@@ -110,6 +111,7 @@
 <div id="modalLogin" class="modal-overlay" style="display: none;">
     <div class="modal-content">
         <h3><i class="fas fa-lock"></i> Login Admin</h3>
+        <div id="loginError" style="display: none; background: rgba(239, 68, 68, 0.2); border: 1px solid #ef4444; border-radius: 1rem; padding: 8px; margin-bottom: 1rem; color: #fecaca; text-align: center;"></div>
         <input type="text" id="loginUsername" placeholder="Username" class="modal-input">
         <input type="password" id="loginPassword" placeholder="Password" class="modal-input">
         <div class="modal-buttons">
@@ -129,6 +131,7 @@
 </div>
 
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
 <script src="script.js"></script>
 </body>
 </html>
