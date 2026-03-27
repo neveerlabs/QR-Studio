@@ -8,15 +8,15 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 
 ---
 
-## ✨ Fitur Utama
+## Fitur Utama
 
-### 👤 Role User (Tanpa Login)
+### Role User (Tanpa Login)
 - **Generate QR** – dua tipe:
   - **Catatan**: teks bebas (URL, catatan, dll.)
   - **Sekolah**: data lengkap siswa/guru (nama, role, status, NIS/NISN, kelas, tempat tanggal lahir)
 - **Vault** – penyimpanan lokal (IndexedDB) semua QR yang pernah dibuat. Bisa lihat, download (sebagai `barcode.png`), dan hapus.
 
-### 🛡️ Role Admin (Login)
+### Role Admin (Login)
 - **Login Admin** – username/password default: `admin` / `admin123` (bisa diubah di `.env`)
 - **Scan QR**:
   - Kamera live dengan bounding box dan scan line animasi
@@ -32,12 +32,13 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 
 ---
 
-## 🖼️ Contoh Tampilan (Review)
+## Contoh Tampilan (Review)
 
 > *Gambar berikut adalah ilustrasi tampilan aplikasi.*
 
-### Halaman Generate QR (User)
-![Generate QR](https://via.placeholder.com/400x200?text=Screenshot+Generate+QR)
+### Halaman utama (generate catatan)
+![Generate catatan](https://github.com/neveerlabs/QR-Studio/raw/bc150d32c0010fcd0e965caa00580a3507f11bf0/Screenshots/Screenshot%20(60).png
+)
 *Pengguna memilih tipe QR dan mengisi data. QR langsung muncul di preview.*
 
 ### Vault – Koleksi QR
@@ -58,7 +59,7 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 
 ---
 
-## 🧱 Teknologi yang Digunakan
+## Teknologi yang Digunakan
 
 | Bagian        | Teknologi                                                                 |
 |---------------|---------------------------------------------------------------------------|
@@ -70,7 +71,7 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 
 ---
 
-## 🚀 Instalasi & Menjalankan
+## Instalasi & Menjalankan
 
 ### 1. Prasyarat
 - Node.js (v16 atau lebih tinggi)
@@ -122,7 +123,7 @@ Server akan berjalan di http://localhost:3000.
 ### 7. Akses Aplikasi
 User: langsung bisa generate QR dan melihat vault.
 
-Admin: klik ikon profil (⚪) → login dengan kredensial yang sudah diset.
+Admin: klik ikon profil → login dengan kredensial yang sudah diset.
 
 ### API Endpoints (Backend)
 Endpoint	Method	Deskripsi
