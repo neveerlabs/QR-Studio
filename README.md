@@ -91,13 +91,13 @@ cd QR-Studio
 
 ### 3. Install Dependencies Backend
 ```bash
-npm install
+npm install express mysql2 cors dotenv
 ```
 
 ### 4. Konfigurasi Database
-Buat database MySQL, misal absensi_db.
+Buat database MySQL, dengan nama `absensi_db`
 
-Salin file .env.example menjadi .env dan sesuaikan:
+Sesuaikan isi file .env dengan milik anda.
 ```bash
 DB_HOST=localhost
 DB_USER=root
