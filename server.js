@@ -152,6 +152,27 @@ app.get('/api/absen', async (req, res) => {
     res.json(rows);
 });
 
+app.get('/api/absen/month', async (req, res) => {
+    const { month, year, role } = req.query;
+    if (!month || !year) {
+        return res.status(400).json({ error: 'Month and year required' });
+    }
+    let sql = `
+        SELECT u.*, a.tanggal, a.created_at
+        FROM absensi a
+        JOIN users u ON a.user_id = u.id
+        WHERE MONTH(a.tanggal) = ? AND YEAR(a.tanggal) = ?
+    `;
+    const params = [parseInt(month), parseInt(year)];
+    if (role && (role === 'siswa' || role === 'guru')) {
+        sql += ' AND u.role = ?';
+        params.push(role);
+    }
+    sql += ' ORDER BY a.tanggal DESC, u.nama_panggilan ASC';
+    const [rows] = await pool.query(sql, params);
+    res.json(rows);
+});
+
 app.use((req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
