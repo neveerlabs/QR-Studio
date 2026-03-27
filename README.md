@@ -130,17 +130,19 @@ User: langsung bisa generate QR dan melihat vault.
 
 Admin: klik ikon profil → login dengan kredensial yang sudah diset.
 
-### API Endpoints (Backend)
-Endpoint	Method	Deskripsi
-/api/login	POST	Login admin, menghasilkan device_id
-/api/logout	POST	Hapus device_id
-/api/check-device	GET	Cek status device (admin/user)
-/api/users	POST	Tambah data siswa/guru
-/api/users	GET	Ambil semua data siswa/guru
-/api/users/:id	DELETE	Hapus data user dan semua absensinya
-/api/absen	POST	Catat kehadiran (memerlukan device_id admin)
-/api/absen	GET	Ambil data absensi hari ini (dengan filter date)
-/api/absen/month	GET	Ambil data absensi bulan/tahun (opsional role)
+| Endpoint           | Method | Deskripsi                                          |
+|--------------------|--------|----------------------------------------------------|
+| `/api/login`       | POST   | Login admin, menghasilkan `device_id`              |
+| `/api/logout`      | POST   | Hapus `device_id`                                  |
+| `/api/check-device`| GET    | Cek status device (admin/user)                     |
+| `/api/users`       | POST   | Tambah data siswa/guru                             |
+| `/api/users`       | GET    | Ambil semua data siswa/guru                        |
+| `/api/users/:id`   | DELETE | Hapus data user dan semua absensinya               |
+| `/api/absen`       | POST   | Catat kehadiran (memerlukan `device_id` admin)     |
+| `/api/absen`       | GET    | Ambil data absensi hari ini (dengan filter `date`) |
+| `/api/absen/month` | GET    | Ambil data absensi bulan/tahun (opsional `role`)   |
+
+---
 
 ### Lisensi
 MIT License – silakan digunakan, dimodifikasi, dan didistribusikan dengan tetap menyertakan kredit kepada pengembang asli.
