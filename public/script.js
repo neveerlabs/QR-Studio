@@ -296,7 +296,7 @@ async function renderVault() {
     const items = await getAllQRCodes();
     const container = document.getElementById('vaultList');
     if (!items.length) {
-        container.innerHTML = `<div class="empty-state"><i class="fas fa-archive"></i><br>Belum ada QR tersimpan</div>`;
+        container.innerHTML = `<div class="empty-state"><i class="fas fa-archive"></i><br>Belum ada QR barcode yang tersimpan</div>`;
         return;
     }
     container.innerHTML = '';
