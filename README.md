@@ -63,7 +63,7 @@ Aplikasi web untuk menghasilkan, menyimpan, dan memindai QR code, dengan fitur a
 
 ### Backup data ke excell
 ![Data backup](https://github.com/neveerlabs/QR-Studio/blob/ac1cff16f4194a457f3367f3e442532cb8af6806/Screenshots/Screenshot%20(69).png)
-*Format data absen yang disimpan akan diexport ke dalam file excell.*
+*Format data absen yang disimpan akan diexport ke dalam file excell. dan hanya menyimpan data absen yang hadir saja*
 
 ---
 
